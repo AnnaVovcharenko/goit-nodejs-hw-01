@@ -7,7 +7,7 @@ const path = require('path');
 const { nanoId } = require('nanoid');
 
 //  Розкоментуй і запиши значення
-const contactsPath = path.join(__dirname, 'contacts.json');
+const contactsPath = path.join('db', 'contacts.json');
 //і запиши в неї шлях до файлу contacts.json. 
 //  Для складання шляху використовуй методи модуля path.
 //path.join([path1][, path2][, …]) — 
