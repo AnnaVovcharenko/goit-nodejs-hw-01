@@ -8,17 +8,16 @@ program
   .option('-p, --phone <type>', 'user phone');
 
 program.parse(process.argv);
-
 const argv = program.opts();
-const contacts = require('./contacts');
-const { log } = require('console');
 
-// TODO: рефакторити
+
+const contacts = require('./contacts');
+
 const invokeAction = async ({ action, id, name, email, phone }) => {
   switch (action) {
     case 'list':
         const allContacys = await contacts.listContacts();
-        return console.log(allContacys);      
+        return console.table(allContacys);      
     case 'get':
       const getContact = await contacts.getContactById(id);
       return console.log(getContact);

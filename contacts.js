@@ -1,59 +1,40 @@
-// contacts.js
-
-
 const fs = require('fs').promises;
-// const { readFile } = require('fs');
+
 const path = require('path');
-const { nanoId } = require('nanoid');
+const { nanoid } = require('nanoid');
 
-//  Розкоментуй і запиши значення
-const contactsPath = path.join('db', 'contacts.json');
-//і запиши в неї шлях до файлу contacts.json. 
-//  Для складання шляху використовуй методи модуля path.
-//path.join([path1][, path2][, …]) — 
-//Об’єднує всі аргументи і нормалізує отриманий шлях.
+const contactsPath = path.join(__dirname, 'db/contacts.json');
 
-
-
-// Додай функції для роботи з колекцією контактів. 
-// У функціях використовуй модуль fs та його методи
-//  readFile() і writeFile().
-// TODO: задокументувати кожну функцію
 const listContacts = async () => {
-    const data = await fs.readFile(contactsPath); // отримуємо данні з файлу як текст
-    return JSON.parse(data); // передає текст вже як масив (перетворює його)
-    //Повертає масив контактів.
+    const data = await fs.readFile(contactsPath); 
+    return JSON.parse(data); 
 }
 
-const getContactById = async (contactId) => {
+const getContactById = async (id) => {
     const contacts = await listContacts();
-    const resCont = contacts.find(item => item.contactId === contactId);
+    const resCont = contacts.find(item => item.id === id);
     return resCont || null;
-    // ...твій код. Повертає об'єкт контакту з таким id. 
-    // Повертає null, якщо контакт з таким id не знайдений.
+    
 }
 
 const removeContact = async (contactId) => {
     const contacts = await listContacts();
-    const indxCont = contacts.findIndex(item => item.contactId === contactId);
+    const indxCont = contacts.findIndex(item => item.id === contactId);
     if (indxCont === -1) {
-        return null
+        return null;
     };
     const [resCont] = contacts.splice(indxCont, 1);
-    await fs.writeFile(contactsPath < JSON.stringify(contacts, null, 2));//запис файлу
+    await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
     return resCont;
-    // ...твій код. Повертає об'єкт видаленого контакту. 
-    // Повертає null, якщо контакт з таким id не знайдений.
-}
+    }
 
 const addContact = async (id, name, email, phone) => {
     const contacts = await listContacts();
-    const newContact = { id: nanoId(), name: name, email: email, phone: phone };
+    const newContact = { id: nanoid(), name: name, email: email, phone: phone };
     contacts.push(newContact);
-    await fs.writeFile(contactsPath, JSON.stringify(contacts, nul, 2))
+    await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2))
     return newContact;
-    // ...твій код. Повертає об'єкт доданого контакту. 
-}
+  }
 
 module.exports = {
     listContacts,
